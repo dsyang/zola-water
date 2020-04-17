@@ -29,11 +29,9 @@
             {% if config.extra.forge %}
             <aside class="source">
                 {% set translated = trans(key="source", lang=lang) %}
-                {% if section %}
-                <a href="{{ config.extra.forge.browse }}content/{{ section.path }}_index.md">{{ translated }}</a>
-                {% else %}
-                <a href="{{ config.extra.forge.browse }}content/{{ page.path }}index.md">{{ translated }}</a>
-                {% endif %}
+                {% set path = section.path|default(value=page.path) %}
+                {% set path = widgets::strip_lang_from_path(path=path, lang=lang) %}
+                <a href="{{ config.extra.forge.browse }}content/{{ path }}{% if section %}_{% endif %}index{% if lang != config.default_language %}.{{ lang }}{% endif %}.md">{{ translated }}</a>
             </aside>
             {% endif %}
         </footer>

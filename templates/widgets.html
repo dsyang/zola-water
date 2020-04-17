@@ -65,3 +65,16 @@ a submenu. A submenu is an actual list
     {{ content | safe }}
 </div>
 {% endmacro bubble %}
+
+{%- macro strip_lang_from_path(path, lang) -%}
+{%- set lang_path = lang ~ '/' -%}
+{%- if path is starting_with(lang_path) -%}
+    {%- if path == lang_path -%}
+        {%- set found_lang = true -%}
+        {%- set path = "" -%}
+    {%- else -%}
+    {%- set path = path | replace(from=lang_path, to='') %}
+    {%- endif -%}
+{%- endif -%}
+{% if path != '/' %}{{ path }}{% endif %}
+{%- endmacro strip_lang_from_path -%}
