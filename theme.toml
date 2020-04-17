@@ -12,6 +12,7 @@ demo = "https://thunix.net/~southerntofu/themes/zola/water"
 # be merged with user data, some kind of prefix or nesting is preferable
 # Use snake_casing to be consistent with the rest of Zola
 [extra]
+color = "dark"
 
 # The theme author info: you!
 [author]
