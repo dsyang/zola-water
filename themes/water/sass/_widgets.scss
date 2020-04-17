@@ -1,0 +1,72 @@
+.widget-bubble {
+	background: #efefef;
+	border: 1px solid #a7a7a7;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	-webkit-box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.2);
+	box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.2);
+	margin: 0 auto;
+	position: relative;
+}
+
+.widget-bubble-arrow::after {
+	content: "";
+	position: absolute;
+}
+
+.widget-bubble-arrow::before {
+	content: "";
+	position: absolute;
+}
+
+.widget-bubble-arrow {
+	position: absolute;
+}
+
+.widget-bubble-left {
+    > .widget-bubble-arrow { left: 15px; }
+    > .widget-bubble-arrow::before {
+        left: 5px;
+	    border-right: 23px solid transparent;
+    }
+    > .widget-bubble-arrow::after {
+	    left: 6px;
+	    border-right: 21px solid transparent;
+    }
+}
+
+.widget-bubble-right {
+    > .widget-bubble-arrow { right: 15px; }
+    > .widget-bubble-arrow::before {
+        right: 5px;
+	    border-left: 23px solid transparent;
+    }
+    > .widget-bubble-arrow::after {
+	    right: 6px;
+	    border-left: 21px solid transparent;
+    }
+}
+
+.widget-bubble-bottom {
+    > .widget-bubble-arrow::after {
+        border-top: 21px solid #efefef;
+	    bottom: 4px;
+    }
+    > .widget-bubble-arrow::before {
+        border-top: 23px solid #a7a7a7;
+        bottom: 2px;
+    }
+    > .widget-bubble-arrow { bottom: -25px }
+}
+
+.widget-bubble-top {
+    > .widget-bubble-arrow::after {
+        border-bottom: 21px solid #efefef;
+	    top: 4px;
+    }
+    > .widget-bubble-arrow::before {
+        border-bottom: 23px solid #a7a7a7;
+        top: 2px;
+    }
+    > .widget-bubble-arrow { top: -25px }
+}

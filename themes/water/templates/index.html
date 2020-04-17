@@ -1,0 +1,41 @@
+{% import "widgets.html" as widgets %}
+{% set lang = section.lang | default(value=page.lang) %}
+{% set translations = section.translations | default(value=page.translations) %}
+<!DOCTYPE html>
+<html class="no-js" lang="{{ lang | default(value=config.default_language)}}">
+    <head>
+        <meta charset="utf8">
+        <title>{% block title %}{{ section.title }}{% endblock %}</title>
+        <link rel="alternate" type="application/rss+xml" href="{{ widgets::i18n_url(path="rss.xml") }}">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{{ get_url(path="style.css") }}" type="text/css">
+        <link rel="stylesheet" href="{{ get_url(path="water.css") }}" type="text/css">
+    </head>
+    <body>
+        <header>
+            {% set header = get_page(path="_common/header.md") %}
+            {{ header.content | markdown | safe }}
+            {% if translations %}
+                {{ widgets::bubble(content=widgets::translations(translations=translations), v="top", h="right")  }}
+            {% endif %}
+            {{ widgets::menu(content="_common/menu.md") }}
+        </header>
+        <main>
+        {% block main %}
+            {{ section.content | markdown | safe }}
+        {% endblock %}
+        </main>
+        <footer>
+            {% if config.extra.forge %}
+            <aside class="source">
+                {% set translated = trans(key="source", lang=lang) %}
+                {% if section %}
+                <a href="{{ config.extra.forge.browse }}content/{{ section.path }}_index.md">{{ translated }}</a>
+                {% else %}
+                <a href="{{ config.extra.forge.browse }}content/{{ page.path }}index.md">{{ translated }}</a>
+                {% endif %}
+            </aside>
+            {% endif %}
+        </footer>
+    </body>
+</html>

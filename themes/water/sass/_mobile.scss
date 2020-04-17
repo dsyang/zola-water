@@ -1,0 +1,7 @@
+@media screen and (max-width: 62em) {
+    // Do not overflow the ASCII art on smaller screens
+    header {
+        > pre { font-size: 0.4em; }
+        > .widget-bubble { max-width: 60%; }
+    }
+}
