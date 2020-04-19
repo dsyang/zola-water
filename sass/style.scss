@@ -1,17 +1,12 @@
-@import 'mobile';
-@import 'widgets';
-
 .nav-menu {
     font-weight: bold;
     > a { margin: 0 1rem; } // Spacing entries
-    color: black;
     padding: 0.5rem; // Leaving background space around entries
 }
 
 header {
     text-align: center;
     font-weight: bold;
-    background-color: rgb(239, 239, 239);
 }
 
 article > div:first-child > h1, section > h1:first-child {
@@ -30,7 +25,6 @@ article > div:first-child {
 }
 
 .pagination {
-    background-color: rgb(239, 239, 239);
     margin-top: 1rem;
     text-align: center;
     > a {
@@ -45,11 +39,6 @@ main {
 }
 
 .source {
-    background-color: rgb(239, 239, 239);
     text-align: center;
     font-weight: bold;
-}
-
-.widget-bubble {
-    max-width: 30%;
 }
