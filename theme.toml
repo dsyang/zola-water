@@ -12,8 +12,17 @@ demo = "https://thunix.net/~southerntofu/themes/zola/water"
 # be merged with user data, some kind of prefix or nesting is preferable
 # Use snake_casing to be consistent with the rest of Zola
 [extra]
+# The default color scheme. Can be either light or dark.
+# Whichever one you choose, it is overriden if the browser supports it.
 color = "dark"
+# A list of additional stylesheets to load from the index template
 stylesheets = []
+# Set the max-width for either "main" or "body". Defaults to "main",
+# switch to "body" for default water.css behavior
+max_width_for = "main" # Can be either main or body
+# Sets the max_width for either main or body, depending on the previous
+# setting. 800px is the water.css default
+max_width = "800px"
 
 # The theme author info: you!
 [author]
