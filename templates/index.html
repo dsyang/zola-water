@@ -10,6 +10,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="{{ get_url(path="style.css") }}" type="text/css">
         <link rel="stylesheet" href="{{ get_url(path="water." ~ config.extra.color ~ ".css") }}" type="text/css">
+        {%- for stylesheet in config.extra.stylesheets %}
+        <link rel="stylesheet" href="{{ get_url(path=stylesheet) }}" type="text/css">
+        {%- endfor %}
     </head>
     <body>
         <header>

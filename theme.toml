@@ -13,6 +13,7 @@ demo = "https://thunix.net/~southerntofu/themes/zola/water"
 # Use snake_casing to be consistent with the rest of Zola
 [extra]
 color = "dark"
+stylesheets = []
 
 # The theme author info: you!
 [author]
