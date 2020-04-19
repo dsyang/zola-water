@@ -59,13 +59,6 @@ a submenu. A submenu is an actual list
 ({{ lang }}) {% for t in translations %}<a href="{{ t.permalink }}">{{ t.lang }}</a>{% endfor %}
 {% endmacro translations %}
 
-{% macro bubble(content, v="bottom", h="right") %}
-<div class="widget-bubble widget-bubble-{{ v }} widget-bubble-{{ h }}">
-    <div class="widget-bubble-arrow"></div>
-    {{ content | safe }}
-</div>
-{% endmacro bubble %}
-
 {%- macro strip_lang_from_path(path, lang) -%}
 {%- set lang_path = lang ~ '/' -%}
 {%- if path is starting_with(lang_path) -%}

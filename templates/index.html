@@ -15,9 +15,7 @@
         <header>
             {% set header = get_page(path="_common/header.md") %}
             {{ header.content | markdown | safe }}
-            {% if translations %}
-                {{ widgets::bubble(content=widgets::translations(translations=translations), v="top", h="right")  }}
-            {% endif %}
+            {% if translations %}{{ widgets::translations(translations=translations) }}{% endif %}
             {{ widgets::menu(content="_common/menu.md") }}
         </header>
         <main>
@@ -29,8 +27,7 @@
             {% if config.extra.forge %}
             <aside class="source">
                 {% set translated = trans(key="source", lang=lang) %}
-                {% set path = section.path|default(value=page.path) %}
-                {% set path = widgets::strip_lang_from_path(path=path, lang=lang) %}
+                {% set path = widgets::strip_lang_from_path(path=section.path|default(value=page.path), lang=lang) %}
                 <a href="{{ config.extra.forge.browse }}content/{{ path }}{% if section %}_{% endif %}index{% if lang != config.default_language %}.{{ lang }}{% endif %}.md">{{ translated }}</a>
             </aside>
             {% endif %}
