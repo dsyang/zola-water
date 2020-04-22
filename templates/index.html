@@ -1,11 +1,12 @@
 {% import "widgets.html" as widgets %}
-{% set lang = section.lang | default(value=page.lang) %}
-{% set translations = section.translations | default(value=page.translations) %}
+{% set translations = section.translations | default(value=page.translations|default(value="")) %}
 <!DOCTYPE html>
 <html class="no-js" lang="{{ lang | default(value=config.default_language)}}">
     <head>
-        <meta charset="utf8">
-        <title>{% block title %}{{ section.title }}{% endblock %}</title>
+        <meta charset="utf8">{#
+        Block title is shared by homepage and taxonomies but tera will complain taxonomy.name does not exist
+        if we don't default again to something else #}
+        <title>{% block title %}{{ section.title|default(value=taxonomy.name|default(value="")) }}{% endblock %}</title>
         <link rel="alternate" type="application/rss+xml" href="{{ widgets::i18n_url(path="rss.xml") }}">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="{{ get_url(path="water." ~ config.extra.color ~ ".css") }}" type="text/css">
@@ -27,10 +28,12 @@
         {% endblock %}
         </main>
         <footer>
-            {% if config.extra.forge %}
+            {# Taxonomy doesn't have a path so we need to ensure we're not in a taxonomy because they extend this template as well #}
+            {% set cur_path = section.path|default(value=page.path|default(value="")) %}
+            {% if config.extra.forge and cur_path %}
             <aside class="source">
                 {% set translated = trans(key="source", lang=lang) %}
-                {% set path = widgets::strip_lang_from_path(path=section.path|default(value=page.path), lang=lang) %}
+                {% set path = widgets::strip_lang_from_path(path=cur_path, lang=lang) %}
                 <a href="{{ config.extra.forge.browse }}content/{{ path }}{% if section %}_{% endif %}index{% if lang != config.default_language %}.{{ lang }}{% endif %}.md">{{ translated }}</a>
             </aside>
             {% endif %}
