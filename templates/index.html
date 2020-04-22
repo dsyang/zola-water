@@ -37,8 +37,9 @@
         {% block main %}
             {% if config.extra.home_section %}
                 {% set home_section = config.extra.home_section ~ "/_index.md" %}
-                {{ widgets::section(cur_section=get_section(path=widgets::i18n_path(path=home_section)), full_articles=config.extra.home_fullarticles, title=config.extra.home_sectiontitle) }}
+                {{ widgets::section(cur_section=get_section(path=widgets::i18n_path(path=home_section)), full_articles=config.extra.home_fullarticles, title=config.extra.home_title) }}
             {% else %}
+            {% if config.extra.home_title %}<h1 class="p-name">{{ section.title }}</h1>{% endif %}
             {{ section.content | markdown | safe }}
             {% endif %}
         {% endblock %}

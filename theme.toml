@@ -24,14 +24,15 @@ max_width_for = "main" # Can be either main or body
 # setting. 800px is the water.css default
 max_width = "800px"
 
+# Show/hide home title, whether the home_section's or the homepage's.
+home_title = true
 # If home_section is empty, homepage is generated from the content of the index
 # page content/_index*.md. If you want to display a section's latest articles on
 # the homepage, set home_section to the name of this section without _index.md,
 # like "blog" for content/blog/. Pagination is defined by this section's 
 # pagination settings.
 home_section = ""
-# Show/hide home section title (only when home_section is set)
-home_sectiontitle = true
+
 # Determines whether to show full articles on the homepage. If disabled, it will
 # only show summaries (if they are defined in the content), or the date/title.
 # (only when home_section is set)
