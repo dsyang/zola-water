@@ -30,8 +30,11 @@ max_width = "800px"
 # like "blog" for content/blog/. Pagination is defined by this section's 
 # pagination settings.
 home_section = ""
+# Show/hide home section title (only when home_section is set)
+home_sectiontitle = true
 # Determines whether to show full articles on the homepage. If disabled, it will
 # only show summaries (if they are defined in the content), or the date/title.
+# (only when home_section is set)
 home_fullarticles = true
 
 

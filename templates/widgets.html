@@ -73,10 +73,16 @@ a submenu. A submenu is an actual list
 {%- endmacro strip_lang_from_path -%}
 
 {# Need to use separate names for variables, otherwise the paginator
-   collides with that of index.html  #}
-{% macro section(cur_section, cur_paginator=false, full_articles=true) %}
+   collides with that of index.html. Also, full_articles and section_title
+   are useful to home section #}
+{% macro section(cur_section, cur_paginator=false, full_articles=true, title=true) %}
 <section class="h-feed">
-    <h1><span class="p-name">{{ cur_section.title }}</span>{% if cur_paginator and cur_paginator.number_pagers > 1 %} ({{ cur_paginator.current_index }}/{{ cur_paginator.number_pagers }}){% endif %}</h1>
+    {% if title %}
+    <h1>
+        <span class="p-name">{{ cur_section.title }}</span>{% if cur_paginator and cur_paginator.number_pagers > 1 %} ({{ cur_paginator.current_index }}/{{ cur_paginator.number_pagers }}){% endif %}
+    </h1>
+    {% endif %}
+    {# Even if called from a different section (such as homepage), we want the semantic permalink to the collection to match the content #}
     <a class="u-url" hidden aria-hidden=true href="{{ cur_section.permalink }}">Permalink</a>
     {% set pages = cur_paginator.pages| default(value=cur_section.pages) %}
     {% for page in pages %}
