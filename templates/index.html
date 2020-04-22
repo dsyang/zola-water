@@ -39,6 +39,7 @@
         {% endblock %}
         </main>
         <footer>
+            {% block footer %}
             {# Taxonomy doesn't have a path so we need to ensure we're not in a taxonomy because they extend this template as well #}
             {% set cur_path = section.path|default(value=page.path|default(value="")) %}
             {% if config.extra.forge and cur_path %}
@@ -48,6 +49,7 @@
                 <a href="{{ config.extra.forge.browse }}content/{{ path }}{% if section %}_{% endif %}index{% if lang != config.default_language %}.{{ lang }}{% endif %}.md">{{ translated }}</a>
             </aside>
             {% endif %}
+            {% endblock footer %}
         </footer>
     </body>
 </html>
