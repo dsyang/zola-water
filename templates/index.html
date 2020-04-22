@@ -17,10 +17,21 @@
     </head>
     <body{% if config.extra.max_width_for == "body" %} style="max-width: {{ config.extra.max_width }}"{% endif %}>
         <header>
+            {% block header %}
+            {% if config.extra.header %}
             {% set header = get_page(path="_common/header.md") %}
             {{ header.content | markdown | safe }}
+            {% else %}
+            <h1>A beautiful header</h1>
+            <h2>Point config.extra.header to a Markdown page, or override the header block in your templates.</h2>
+            {% endif %}
             {% if translations %}{{ widgets::translations(translations=translations) }}{% endif %}
+            {% if config.extra.menu %}
             {{ widgets::menu(content="_common/menu.md") }}
+            {% else %}
+            <h2>Point config.extra.menu to a Markdown page and you will have a navigation menu</h2>
+            {% endif %}
+            {% endblock header %}
         </header>
         <main{% if config.extra.max_width_for == "main" %} style="max-width: {{ config.extra.max_width }}"{% endif %}>
         {% block main %}

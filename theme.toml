@@ -23,6 +23,10 @@ max_width_for = "main" # Can be either main or body
 # Sets the max_width for either main or body, depending on the previous
 # setting. 800px is the water.css default
 max_width = "800px"
+# Defines a header page in the content folder, that may be translated
+header = ""
+# Defines a menu page in the content folder, that may be translated
+menu = ""
 
 # The theme author info: you!
 [author]
