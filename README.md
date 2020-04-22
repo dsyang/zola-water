@@ -142,9 +142,7 @@ A template can both replace and extend itself. So that if you want to just chang
 
 **WARNING**: Replacing templates has limitations on vanilla Zola: if some other templates includes the template you replaced, the theme's version will be extended instead (replacing index.html is only supported on the fork)
 
-# FAQ
-
-## How to support taxonomies
+# Taxonomies support
 
 Zola has built-in support for [taxonomies](https://www.getzola.org/documentation/content/taxonomies/). These allow you to "tag" your content in a given category with multiple items of this category. For examples, your taxonomies can be:
 
@@ -172,9 +170,11 @@ Then, you need to create templates for the taxonomies in your templates folder:
 
 The variables you can use in those templates are described on [zola docs](https://www.getzola.org/documentation/templates/taxonomies/).
 
-## How to support translations
+# Translations for multilingual sites (i18n)
 
-TODO short links to zola docs about how to deal with translations in most cases
+In order to support translations, you need to enable languages in your site config. Then, you can translate markdown files by simply adding ".LANG" before the ".md" extension, where LANG is the language you want to translate it into. For example, `content/about.md` becomes `content/about.fr.md` in french.
+
+This is explained [in the multilingual docs](https://www.getzola.org/documentation/content/multilingual/) on Zola's website.
 
 ### Convenience macros
 
@@ -240,16 +240,52 @@ tags = [ "ssg", "tutoriel" ]
 auteurices = [ "foobar" ]
 ```
 
-# Other niceties
+# Template widgets
 
-TODO
+The theme features some nice, user-friendly content-organizing patterns such as described in [this article](https://staticadventures.netlib.re/blog/multi-column-layout/).
 
-# Current limitations
+For the moment, only a menu widget is provided, but more are coming!
 
-TODO
+## menu widget
 
-- on zola stable, having a template that rewrites a theme template WILL break stuff, you should use extends isntead though that's less powerful
-- if you do replace index.html with your own, it needs to support the same blocks as the theme's index.html otherwise other pages will break
-- if you include a header = "foo.md", it needs to be translated in every language otherwise the site will crash (should be allowed by i18n refinements in the future) -> use ln -s header.md header.fr.md to keep them synced
-- the pages you include for header/menu CANNOT be "_index.md" for some weird reason (special case for homepage??)
-- homepage as section cannot paginate, because index.html would have the paginator of the index section, not of the target section... this is a limitation of zola not the theme itself
+This widget comes in handy when you need to build a list of link, that you can further style with CSS. It takes a `content` argument and divides it according to the thematic breaks, furthermore stripping paragraph tags added during Markdown processing.
+
+**Note**: this macro relies on ugly HTML hacks that do not work with every content, i hope in the future zola allows us to access the raw markdown content and process it as we need.
+
+Example:
+
+```
+{{ widgets::menu(path="_common/menu.md") }}
+```
+
+Sample menu (can be translated):
+
+```
++++
++++
+
+[Home](@/_index.md)
+
+===
+
+[About](@/about.md)
+
+===
+
+[Contact](@/contact.md)
+```
+
+# For the future
+
+## Current limitations
+
+This theme is already quite cool, but there's a few limitations i would like to tackle:
+
+- if you configure a header/menu = "foo.md", it needs to be translated in every language otherwise the site will crash; if you have ideas how to fix this without a [has_page](https://zola.discourse.group/t/rfc-i18n/13/28) template function, let me know!
+- if you configure a header/menu, it cannot be the index page because of some weird reason i have no idea about
+- pagination cannot work on the index page, because index.html doesn't know about the home section's paginator (only the home's paginator) ; maybe we could count the home section's children and auto append a link to SECTION/page/2 when it's more than X?
+
+## Future plans
+
+- provide some interesting shortcodes
+- support other plug-and-play CSS stylesheets than water.css
