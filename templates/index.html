@@ -1,7 +1,8 @@
 {% import "widgets.html" as widgets %}
 {% set translations = section.translations | default(value=page.translations|default(value="")) %}
 <!DOCTYPE html>
-<html class="no-js" lang="{{ lang | default(value=config.default_language)}}">
+{#<html class="no-js" lang="{{ lang | default(value=config.default_language)}}">#}
+<html class="no-js" lang="{{ lang }}">
     <head>
         <meta charset="utf8">{#
             Don't forget taxonomy titles #}
