@@ -35,3 +35,16 @@ homepage = "https://staticadventures.netlib.re"
 author =  "kognise"
 homepage = "https://kognise.github.io/water.css/"
 repo = "https://github.com/kognise/water.css"
+
+[translations.fr]
+source = "Source de cette page"
+readmore = "Lire la suite"
+previousPage = "Page précédente"
+nextPage = "Page suivante"
+dateFormat = "%d/%m/%Y"
+[translations.en]
+source = "Source for this page"
+readmore = "Read more"
+previousPage = "Previous page"
+nextPage = "Next page"
+dateFormat = "%m/%d/%Y"
