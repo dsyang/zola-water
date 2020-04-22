@@ -19,7 +19,7 @@
         <header>
             {% block header %}
             {% if config.extra.header and config.extra.header != "disabled" %}
-            {% set header = get_page(path=config.extra.header) %}
+            {% set header = get_page(path=widgets::i18n_path(path=config.extra.header, lang=lang)) %}
             {{ header.content | markdown | safe }}
             {% elif config.extra.header != "disabled" %}
             <h1>Welcome to water theme!</h1>
