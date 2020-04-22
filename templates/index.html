@@ -18,17 +18,17 @@
     <body{% if config.extra.max_width_for == "body" %} style="max-width: {{ config.extra.max_width }}"{% endif %}>
         <header>
             {% block header %}
-            {% if config.extra.header %}
+            {% if config.extra.header and config.extra.header != "disabled" %}
             {% set header = get_page(path=config.extra.header) %}
             {{ header.content | markdown | safe }}
-            {% else %}
+            {% elif config.extra.header != "disabled" %}
             <h1>Welcome to water theme!</h1>
             <h2>Please edit config.extra.header, or override the header block in your site templates.</h2>
             {% endif %}
             {% if translations %}{{ widgets::translations(translations=translations) }}{% endif %}
-            {% if config.extra.menu %}
+            {% if config.extra.menu and config.extra.menu != "disabled" %}
             {{ widgets::menu(content="_common/menu.md") }}
-            {% else %}
+            {% elif config.extra.menu != "disabled" %}
             <h2>Point config.extra.menu to a Markdown page and you will have a navigation menu</h2>
             {% endif %}
             {% endblock header %}
