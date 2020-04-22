@@ -54,7 +54,7 @@ $ git pull
 
 If you want to simply configure the theme to match your needs, there's a few options at your disposal. If you want to replace parts of the templates, please head over to the [Customization](#customization) section of this README.
 
-**Warning**: ([PR](https://github.com/getzola/zola/pull/997)) Vanilla zola does not support overriding a simple key from config.extra subsection, such as config.extra.styles. For the moment, we only use 1-level keys (home.title -> home_title) for this reason, but this will change in the future!
+**WARNING**: ([PR](https://github.com/getzola/zola/pull/997)) Vanilla zola does not support overriding a simple key from config.extra subsection, such as config.extra.styles. For the moment, we only use 1-level keys (home.title -> home_title) for this reason, but this will change in the future!
 
 ## Base template
 
@@ -113,7 +113,34 @@ Example: use `home_section = "blog"` to feature the blog/ section on the homepag
 
 # Customization
 
-TODO: how to extend templates from site templates!
+## Extending templates
+
+Theme templates can be extended from your site templates. This means you can replace any "block" defined in the theme templates. The template path needs to be prepended with `water/templates/`. If your site's section.html wants to override the content block of the theme's section, it can do like this:
+
+```
+{% extends 'water/templates/section.html' %}
+{% block content %}
+<h2>My latest articles</h2>
+<ul>
+    {% for page in section.pages %}
+    <li><a href="{{ page.permalink }}">{{ page.name }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}
+```
+
+## Replacing templates
+
+You can replace a template by simply placing a template of the same name in your site's templates folder. If you replace a template that is extended by others (like index.html), make sure to define the same blocks as it does so children templates don't see the difference.
+
+A template can both replace and extend itself. So that if you want to just change the title in index.html, all you have to do is create templates/index.html with:
+
+```
+{% extends 'water/templates/index.html' %}
+{% block title %}MY CUSTOM TITLE{% endblock %}
+```
+
+**WARNING**: Replacing templates has limitations on vanilla Zola: if some other templates includes the template you replaced, the theme's version will be extended instead (replacing index.html is only supported on the fork)
 
 # FAQ
 
