@@ -21,9 +21,9 @@ a submenu. A submenu is an actual list
 
  You cannot use <p> tags in the menu.
 ######################################}
-{% macro menu(content) %}
+{% macro menu(path) %}
 <nav class="nav-menu" role="navigation">
-    {%- set source = self::i18n_content(path=content) -%}
+    {%- set source = self::i18n_content(path=path) -%}
     {% set entries = source | split(pat="<hr />") %}
     {#- fetch page content and divide it with separator -#}
     {%- for entry in entries %}
