@@ -161,14 +161,22 @@ tags = [ "ssg", "tutorial" ]
 authors = [ "foobar" ]
 ```
 
-Then, you need to create templates for the taxonomies in your templates folder:
+## Taxonomies templates
+
+Then, you need to create templates for the taxonomies in your site's templates folder:
 
 - tags/single.html <~~ about a specific tag
 - tags/list.html <~~ tags list
 - authors/single.html <~~ about a specific author
 - authors/list.html <~~ authors list
 
-The variables you can use in those templates are described on [zola docs](https://www.getzola.org/documentation/templates/taxonomies/).
+The variables you can use in those templates are described on [zola docs](https://www.getzola.org/documentation/templates/taxonomies/). Please be aware that taxonomy templates have no title/content or related section/page variables.
+
+**Note**: If your taxonomy template extends the theme's index.html, your site will crash if the template does not override the main block, as the one provided in index.html is intended for the homepage. This could be improved in the future, and patches are welcome!
+
+**WARNING**: Taxonomies templates don't have a lang in Zola <= 10.1. If you are running Zola 10.1, please be sure to override the header block as well, or your site will crash.
+
+**Note**: If you replace the theme's index.html entirely, please remember to include fallbacks for missing variables in taxonomies. These workarounds are marked "TAXONOMY" in the index.html so you can find them easily.
 
 # Translations for multilingual sites (i18n)
 
@@ -183,9 +191,6 @@ This theme includes a few macros to help deal with with i18n concerns. They are 
 ```
 {% import "widgets.html" as widgets %}
 ```
-
-In most templates, the `lang` variable is set. However that's not the case in all templates.
-TODO: figure out where that was not the case
 
 #### i18n_path
 
