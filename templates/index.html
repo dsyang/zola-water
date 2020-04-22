@@ -1,11 +1,9 @@
 {% import "widgets.html" as widgets %}
 {% set translations = section.translations | default(value=page.translations|default(value="")) %}
-<!DOCTYPE html>
-{#<html class="no-js" lang="{{ lang | default(value=config.default_language)}}">#}
-<html class="no-js" lang="{{ lang }}">
+<!DOCTYPE html>{# TAXONOMY: no lang on 10.1 #}
+<html class="no-js" lang="{{ lang | default(value=config.default_language)}}">
     <head>
-        <meta charset="utf8">{#
-            Don't forget taxonomy titles #}
+        <meta charset="utf8">{# TAXONOMY: no section.title here #}
         <title>{% block title %}{{ section.title|default(value=taxonomy.name) }}{% endblock %}</title>
         {% if generate_rss %}<link rel="alternate" type="application/rss+xml" href="{{ widgets::i18n_url(path="rss.xml") }}">
         {% endif %}<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,7 +16,8 @@
     <body{% if config.extra.max_width_for == "body" %} style="max-width: {{ config.extra.max_width }}"{% endif %}>
         <header>
             {% block header %}
-            {% if config.extra.header and config.extra.header != "disabled" %}
+            {# TAXONOMY PROBLEM (not needed with Zola > 10.1) please override me or i will crash your site #}
+            {% if config.extra.header and config.extra.header != "disabled" %}{# TAXONOMY: no lang here #}
             {% set header = get_page(path=widgets::i18n_path(path=config.extra.header, lang=lang)) %}
             {{ header.content | markdown | safe }}
             {% elif config.extra.header != "disabled" %}
@@ -35,6 +34,7 @@
         </header>
         <main{% if config.extra.max_width_for == "main" %} style="max-width: {{ config.extra.max_width }}"{% endif %}>
         {% block main %}
+        {# TAXONOMY: Please override me or i will crash your site #}
             {% if config.extra.home_section %}
                 {% set home_section = config.extra.home_section ~ "/_index.md" %}
                 {{ widgets::section(cur_section=get_section(path=widgets::i18n_path(path=home_section)), full_articles=config.extra.home_fullarticles, title=config.extra.home_title) }}
@@ -46,7 +46,7 @@
         </main>
         <footer>
             {% block footer %}
-            {# Taxonomy doesn't have a path so we need to ensure we're not in a taxonomy because they extend this template as well #}
+            {# TAXONOMY: no path here, so no source #}
             {% set cur_path = section.path|default(value=page.path|default(value="")) %}
             {% if config.extra.forge and cur_path %}
             <aside class="source">
