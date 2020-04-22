@@ -3,37 +3,5 @@
 {% block title %}{{ section.title }}{{ config.extra.title }}{% endblock %}
 
 {% block main %}
-    <section class="h-feed">
-        <h1><span class="p-name">{{ section.title }}</span>{% if paginator and paginator.number_pagers > 1 %} ({{ paginator.current_index }}/{{ paginator.number_pagers }}){% endif %}</h1>
-        <a class="u-url" hidden aria-hidden=true href="{{ section.permalink }}">Permalink</a>
-        {% set pages = paginator.pages| default(value=section.pages) %}
-        {% for page in pages %}
-            <article>
-                <div>
-                    <a class="u-url" href="{{ page.permalink }}"><h2>{{ page.title }}</h2></a>
-                    {%- if page.date -%}<time class="dt-published" datetime="{{ page.date }}">📅&nbsp;{{ page.date | date(format=trans(key="dateFormat", lang=lang)) }}</time>{%- endif -%}
-                </div>
-                {% if page.summary %}
-                <div class="p-summary e-content">
-                {{ page.summary | markdown | safe }}
-                <a class="read-more" href="{{ page.permalink }}">--> {{ trans(key="readmore", lang=lang) }} <--</a>
-                </div>
-                {% else %}
-                <div class="e-content">
-                {{ page.content | markdown | safe }}
-                </div>
-                {% endif %}
-            </article>
-        {% endfor %}
-        {% if paginator and paginator.number_pagers > 1 %}
-        <aside class="pagination">
-            {% if paginator.previous %}
-                <a href="{{ paginator.previous }}"><--&nbsp;&nbsp;{{ trans(key="previousPage", lang=lang) }}</a>
-            {% endif %}
-            {% if paginator.next %}
-                <a href="{{ paginator.next }}">{{ trans(key="nextPage", lang=lang) }}&nbsp;&nbsp;--></a>
-            {% endif %}
-        </aside>
-        {% endif %}
-    </section>
-{% endblock %}
+{{ widgets::section(cur_section=section, cur_paginator=paginator) }}
+{% endblock main %}

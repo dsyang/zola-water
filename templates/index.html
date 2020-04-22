@@ -35,7 +35,12 @@
         </header>
         <main{% if config.extra.max_width_for == "main" %} style="max-width: {{ config.extra.max_width }}"{% endif %}>
         {% block main %}
+            {% if config.extra.home_section %}
+                {% set home_section = config.extra.home_section ~ "/_index.md" %}
+                {{ widgets::section(cur_section=get_section(path=widgets::i18n_path(path=home_section)), full_articles=config.extra.home_fullarticles) }}
+            {% else %}
             {{ section.content | markdown | safe }}
+            {% endif %}
         {% endblock %}
         </main>
         <footer>

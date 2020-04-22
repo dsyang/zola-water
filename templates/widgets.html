@@ -71,3 +71,41 @@ a submenu. A submenu is an actual list
 {%- endif -%}
 {% if path != '/' %}{{ path }}{% endif %}
 {%- endmacro strip_lang_from_path -%}
+
+{# Need to use separate names for variables, otherwise the paginator
+   collides with that of index.html  #}
+{% macro section(cur_section, cur_paginator=false, full_articles=true) %}
+<section class="h-feed">
+    <h1><span class="p-name">{{ cur_section.title }}</span>{% if cur_paginator and cur_paginator.number_pagers > 1 %} ({{ cur_paginator.current_index }}/{{ cur_paginator.number_pagers }}){% endif %}</h1>
+    <a class="u-url" hidden aria-hidden=true href="{{ cur_section.permalink }}">Permalink</a>
+    {% set pages = cur_paginator.pages| default(value=cur_section.pages) %}
+    {% for page in pages %}
+        <article>
+            <div>
+                <a class="u-url" href="{{ page.permalink }}"><h2>{{ page.title }}</h2></a>
+                {%- if page.date -%}<time class="dt-published" datetime="{{ page.date }}">📅&nbsp;{{ page.date | date(format=trans(key="dateFormat", lang=lang)) }}</time>{%- endif -%}
+            </div>
+            {% if page.summary %}
+            <div class="p-summary e-content">
+            {{ page.summary | markdown | safe }}
+            <a class="read-more" href="{{ page.permalink }}">--> {{ trans(key="readmore", lang=lang) }} <--</a>
+            </div>
+            {% elif full_articles %}
+            <div class="e-content">
+            {{ page.content | markdown | safe }}
+            </div>
+            {% endif %}
+        </article>
+    {% endfor %}
+    {% if cur_paginator and cur_paginator.number_pagers > 1 %}
+    <aside class="pagination">
+        {% if cur_paginator.previous %}
+            <a href="{{ cur_paginator.previous }}"><--&nbsp;&nbsp;{{ trans(key="previousPage", lang=lang) }}</a>
+        {% endif %}
+        {% if cur_paginator.next %}
+            <a href="{{ cur_paginator.next }}">{{ trans(key="nextPage", lang=lang) }}&nbsp;&nbsp;--></a>
+        {% endif %}
+    </aside>
+    {% endif %}
+</section>
+{% endmacro section %}
