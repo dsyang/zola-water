@@ -146,9 +146,37 @@ A template can both replace and extend itself. So that if you want to just chang
 
 ## How to support taxonomies
 
-TODO
+Zola has built-in support for [taxonomies](https://www.getzola.org/documentation/content/taxonomies/). These allow you to "tag" your content in a given category with multiple items of this category. For examples, your taxonomies can be:
+
+```
+taxonomies = [
+  { name = "tags", rss = true },
+  { name = "authors", rss = true },
+]
+```
+
+In your content pages, you can then add in the frontmatter:
+
+```
+[taxonomies]
+tags = [ "ssg", "tutorial" ]
+authors = [ "foobar" ]
+```
+
+Then, you need to create templates for the taxonomies in your templates folder:
+
+- tags/single.html <~~ about a specific tag
+- tags/list.html <~~ tags list
+- authors/single.html <~~ about a specific author
+- authors/list.html <~~ authors list
+
+The variables you can use in those templates are described on [zola docs](https://www.getzola.org/documentation/templates/taxonomies/).
 
 ## How to support translations
+
+TODO
+
+### i18n taxonomies
 
 TODO
 
