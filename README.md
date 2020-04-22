@@ -174,13 +174,79 @@ The variables you can use in those templates are described on [zola docs](https:
 
 ## How to support translations
 
-TODO
+TODO short links to zola docs about how to deal with translations in most cases
+
+### Convenience macros
+
+This theme includes a few macros to help deal with with i18n concerns. They are located in the widgets.html file, which you simply need to import in your template, unless your template extends the theme's index.html which already imports it for you:
+
+```
+{% import "widgets.html" as widgets %}
+```
+
+In most templates, the `lang` variable is set. However that's not the case in all templates.
+TODO: figure out where that was not the case
+
+#### i18n_path
+
+Takes a `path` parameter to a content page/section, and a `lang` parameter. Returns the path to the page in the requested language.
+
+Example:
+
+```
+<p>The current language's menu is in file {{ widgets::i18n_path(path="menu.md", lang=lang) }}</p>
+```
+
+#### i18n_content
+
+Takes a `path` parameter to a content page (not section), and a `lang` parameter. Retuns the page's content in the requested language.
+
+Example:
+
+```
+<nav>{{ widgets::i18n_content(path="menu.md", lang=lang) }}</nav>
+```
+
+#### i18n_url
+
+Takes a `path` parameter which is a URL relative to your site, and a `lang` parameter. Returns the requested URL, with the language inserted between the base_url and the path (eg. "rss.xml" => "BASEURL/fr/rss.xml").
+
+Example:
+
+```
+<link rel="alternate" type="application/rss+xml" href="{{ widgets::i18n_url(path="rss.xml") }}">
+```
+
+**Note**: this macro does not lookup translations, but naively constructs the URL. Only use it for content you know share the same slug across languages.
 
 ### i18n taxonomies
+
+In order to support local names for taxonomies, you simply need to define those with an additional `lang` key in config.taxonomies:
+
+```
+taxonomies = [
+  { name = "tags", lang = "en", rss = true },
+  { name = "tags", lang = "fr", rss = true },
+  { name = "authors", lang = "en", rss = true },
+  { name = "auteurices", lang = "fr", rss = true },
+]
+```
+
+Then, your translated pages can use the translated taxonomy names. Example page.fr.md:
+
+```
+[taxonomies]
+tags = [ "ssg", "tutoriel" ]
+auteurices = [ "foobar" ]
+```
+
+# Other niceties
 
 TODO
 
 # Current limitations
+
+TODO
 
 - on zola stable, having a template that rewrites a theme template WILL break stuff, you should use extends isntead though that's less powerful
 - if you do replace index.html with your own, it needs to support the same blocks as the theme's index.html otherwise other pages will break
