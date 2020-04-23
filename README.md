@@ -174,7 +174,7 @@ The variables you can use in those templates are described on [zola docs](https:
 
 **Note**: If your taxonomy template extends the theme's index.html, your site will crash if the template does not override the main block, as the one provided in index.html is intended for the homepage. This could be improved in the future, and patches are welcome!
 
-**WARNING**: Taxonomies templates don't have a lang in Zola <= 10.1. If you are running Zola 10.1, please be sure to override the header block as well, or your site will crash.
+**WARNING**: Taxonomies templates don't have a lang in Zola <= 10.1. If you are running Zola 10.1, please be sure to override the header block in your taxonomies templates or you will have a friendly error message displayed on your site (no crash).
 
 **Note**: If you replace the theme's index.html entirely, please remember to include fallbacks for missing variables in taxonomies. These workarounds are marked "TAXONOMY" in the index.html so you can find them easily.
 

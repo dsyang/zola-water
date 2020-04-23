@@ -5,7 +5,7 @@
     <head>
         <meta charset="utf8">{# TAXONOMY: no section.title here #}
         <title>{% block title %}{{ section.title|default(value=taxonomy.name) }}{% endblock %}</title>
-        {% if generate_rss %}<link rel="alternate" type="application/rss+xml" href="{{ widgets::i18n_url(path="rss.xml") }}">
+        {% if generate_rss %}<link rel="alternate" type="application/rss+xml" href="{% if lang %}{{ widgets::i18n_url(path="rss.xml") }}{% else %}{{ get_url(path="rss.xml")}}{% endif %}">
         {% endif %}<meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="{{ get_url(path="water." ~ config.extra.color ~ ".css") }}" type="text/css">
         <link rel="stylesheet" href="{{ get_url(path="style.css") }}" type="text/css">
@@ -16,7 +16,8 @@
     <body{% if config.extra.max_width_for == "body" %} style="max-width: {{ config.extra.max_width }}"{% endif %}>
         <header>
             {% block header %}
-            {# TAXONOMY PROBLEM (not needed with Zola > 10.1) please override me or i will crash your site #}
+            {# TAXONOMY PROBLEM (not needed with Zola > 10.1) need to check if lang exists, do not display anything otherwise #}
+            {% if lang %}
             {% if config.extra.header and config.extra.header != "disabled" %}{# TAXONOMY: no lang here #}
             {% set header = get_page(path=widgets::i18n_path(path=config.extra.header, lang=lang)) %}
             {{ header.content | markdown | safe }}
@@ -29,6 +30,9 @@
             {{ widgets::menu(path="_common/menu.md") }}
             {% elif config.extra.menu != "disabled" %}
             <h2>Point config.extra.menu to a Markdown page and you will have a navigation menu</h2>
+            {% endif %}
+            {% else %}
+            <h3>Your zola version does not support translations in taxonomy templates. Please upgrade.</h3>
             {% endif %}
             {% endblock header %}
         </header>
