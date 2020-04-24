@@ -27,7 +27,7 @@
             {% endif %}
             {% if translations %}{{ widgets::translations(translations=translations) }}{% endif %}
             {% if config.extra.menu and config.extra.menu != "disabled" %}
-            {{ widgets::menu(path="_common/menu.md") }}
+            {{ widgets::menu(path=config.extra.menu) }}
             {% elif config.extra.menu != "disabled" %}
             <h2>Point config.extra.menu to a Markdown page and you will have a navigation menu</h2>
             {% endif %}
