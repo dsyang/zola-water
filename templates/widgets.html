@@ -90,6 +90,9 @@ Separate entries with a thematic break:
     {# Even if called from a different section (such as homepage), we want the semantic permalink to the collection to match the content #}
     <a class="u-url" hidden aria-hidden=true href="{{ cur_section.permalink }}">Permalink</a>
     {% set pages = cur_paginator.pages| default(value=cur_section.pages) %}
+    {% if pages|length < 1 %}
+        <center><h2>{{ trans(key="nothing_yet", lang=lang) }}</h2></center>
+    {% endif %}
     {% for page in pages %}
         <article>
             <div>
