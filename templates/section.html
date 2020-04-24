@@ -1,6 +1,6 @@
 {% extends "index.html" %}
 
-{% block title %}{{ section.title }}{{ config.extra.title }}{% endblock %}
+{% block title %}{{ section.title }} | {{ config.extra.title }}{% endblock %}
 
 {% block main %}
 {# HACK: paginator is not set on transparent sections (i.e. blog/2020/_index.md) #}
