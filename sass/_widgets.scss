@@ -1,0 +1,46 @@
+.widget-menu {
+    font-weight: bold;
+    > a { margin: 0 1rem; } // Spacing entries
+    padding: 0.5rem; // Leaving background space around entries
+}
+
+.widget-columns {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-start;
+	justify-content: space-evenly;
+    // TODO: could be site theming instead?
+    text-align: center;
+}
+
+.widget-columns-column {
+    // For mobile view
+    width: 95vw;
+    margin: auto;
+
+    // For wide screens
+    @media (min-width: 48em) {
+        max-width: 500px;
+        width: 30vw;
+    }
+    > img:first-child, > i:first-child {
+        // For images
+        max-height: 4rem;
+        height: 4rem;
+        // For text
+        font-size: 4rem;
+        line-height: 1;
+    }
+    a { font-weight: bold; }
+    > p:first-child { height: 4rem; }
+	> h1 { font-size: 2rem; }
+}
+
+// For images we need to introduce additional padding
+// on mobile view otherwise it gets clogged. Only apply
+// to images because <i>text</i> already has nice layout
+@media (max-width: 48em) {
+    .widget-columns-column:not(first-child) > img:first-child {
+        padding-top: 1rem;
+    }
+}

@@ -1,11 +1,21 @@
+@import 'widgets';
+
+// Override water.css
 body {
-    max-width: none; // Override water.css
+    max-width: none;
+    margin: 0;
+    padding: 0;
 }
 
-.nav-menu {
-    font-weight: bold;
-    > a { margin: 0 1rem; } // Spacing entries
-    padding: 0.5rem; // Leaving background space around entries
+@media (max-width: 48em) {
+    // water.css applies padding to the whole page, i think
+    // it's fine but only on mobile view, and should apply to
+    // individual blocks rather than whole page
+    main {
+        padding: 0 10px;
+    }
+    // Reduce main title sizes on mobile view
+    h1 { font-size: 1.8rem; line-height: 1.2; }
 }
 
 header {
@@ -16,7 +26,7 @@ header {
 article > div:first-child > h1, section > h1:first-child {
     text-align: center;
     font-size: 2.6em;
-    @media screen and (max-width: 64em) {
+    @media screen and (max-width: 48em) {
         font-size: 1.3em;
     }
 }
@@ -52,4 +62,10 @@ main {
 
 pre {
     overflow-x: auto;
+}
+
+footer {
+    padding: 0.5rem 0;
+    // WTF water.css doesn't have good contrast here?
+    color: var(--text-bright);
 }

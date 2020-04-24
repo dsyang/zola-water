@@ -6,23 +6,14 @@ Provide the widget with a content page
 
 {{ widgets::menu(content="_common/menus/main.md") }}
 
-If the content page has a translation, it will be
-automatically loaded in the current language, as long as
-your parent template has a `lang` variable set, like so:
-
-{% set lang = section.lang | default(value=page.lang) %}
-
 Separate entries with a thematic break:
     either ---, ~~~, ___ or <hr />
 
-An entry can be either text, a link, or
-a submenu. A submenu is an actual list
-   defined using Markdown or HTML.
-
  You cannot use <p> tags in the menu.
+ That's because we can't access raw markdown
 ######################################}
 {% macro menu(path) %}
-<nav class="nav-menu" role="navigation">
+<nav class="widget-menu" role="navigation">
     {%- set source = self::i18n_content(path=path) -%}
     {% set entries = source | split(pat="<hr />") %}
     {#- fetch page content and divide it with separator -#}
@@ -32,6 +23,20 @@ a submenu. A submenu is an actual list
     {%- endfor %}
 </nav>
 {% endmacro menu %}
+
+{% macro columns(path) %}
+<div class="widget-columns">
+    {%- set source = self::i18n_content(path=path) -%}
+    {% set entries = source | split(pat="<hr />") %}
+    {#- fetch page content and divide it with separator -#}
+    {%- for entry in entries %}
+        <div class="widget-columns-column">
+        {{ entry | trim | replace(from="<p>", to="") | replace(from="</p>", to="") | safe }}
+        {# strip paragraph tags away for nicer markup #}
+        </div>
+    {%- endfor %}
+</div>
+{% endmacro columns %}
 
 {%- macro i18n_path(path) -%}
     {% if lang == config.default_language %}{{ path }}
