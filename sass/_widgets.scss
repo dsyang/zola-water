@@ -16,7 +16,8 @@
 .widget-columns-column {
     // For mobile view
     width: 95vw;
-    margin: auto;
+    // Column titles are on the same line
+    margin: 0 auto;
 
     // For wide screens
     @media (min-width: 48em) {
