@@ -4,7 +4,7 @@
 <html class="no-js" lang="{{ lang | default(value=config.default_language)}}">
     <head>
         <meta charset="utf8">{# TAXONOMY: no section.title here #}
-        <title>{% block title %}{{ section.title|default(value=taxonomy.name) }}{% endblock %}</title>
+        <title>{% block title %}{{ section.title|default(value=taxonomy.name|default(value=config.extra.title|default(value=""))) }}{% endblock %}</title>
         {% if generate_rss %}<link rel="alternate" type="application/rss+xml" href="{% if lang %}{{ widgets::i18n_url(path="rss.xml") }}{% else %}{{ get_url(path="rss.xml")}}{% endif %}">
         {% endif %}<meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="{{ get_url(path="water." ~ config.extra.color ~ ".css") }}" type="text/css">
