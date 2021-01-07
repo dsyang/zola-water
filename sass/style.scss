@@ -69,3 +69,9 @@ footer {
     // WTF water.css doesn't have good contrast here?
     color: var(--text-bright);
 }
+
+// center images in articles
+.h-entry img {
+    margin: auto;
+    display: block;
+}
