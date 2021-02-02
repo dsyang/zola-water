@@ -61,7 +61,7 @@ Separate entries with a thematic break:
 {%- endmacro i18n_url -%}
 
 {% macro translations(translations) %}
-({{ lang }}) {% for t in translations %}<a href="{{ t.permalink }}">{{ t.lang }}</a>{% endfor %}
+({{ lang }}){% for t in translations %}{% if lang != t.lang %} <a href="{{ t.permalink }}">{{ t.lang }}</a>{% endif %}{% endfor %}
 {% endmacro translations %}
 
 {%- macro strip_lang_from_path(path, lang) -%}
