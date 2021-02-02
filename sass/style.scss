@@ -68,6 +68,15 @@ footer {
     padding: 0.5rem 0;
     // WTF water.css doesn't have good contrast here?
     color: var(--text-bright);
+    font-size: 1.2rem;
+    text-align: center;
+    .altnames {
+        word-wrap: anywhere;
+        > p > img {
+            width: 1rem;
+            height: 1rem;
+        }
+    }
 }
 
 // center images in articles
