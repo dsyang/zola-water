@@ -64,14 +64,14 @@ author =  "kognise"
 homepage = "https://kognise.github.io/water.css/"
 repo = "https://github.com/kognise/water.css"
 
-[translations.fr]
+[extra.translations.fr]
 source = "Source de cette page"
 readmore = "Lire la suite"
 previousPage = "Page précédente"
 nextPage = "Page suivante"
 dateFormat = "%d/%m/%Y"
 nothing_yet = "Il n'y a pas encore d'article dans cette section."
-[translations.en]
+[extra.translations.en]
 source = "Source for this page"
 readmore = "Read more"
 previousPage = "Previous page"
