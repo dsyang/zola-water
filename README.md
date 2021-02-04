@@ -2,9 +2,6 @@
 
 A multi-lingual, lightweight and responsive theme built on water.css. It's intended to powerful yet simple, so if the theme gets in your way, or if something isn't clear, please consider it an issue and report it [on tildegit](https://tildegit.org/southerntofu/zola-water) or by email to the maintainer (MyUserName@thunix.net).
 
-**WARNING**: Some features do not work on the official (vanilla) Zola. These specific features will be marked with an additional warning.
-TODO: link to southerntofu's fork while features are considered upstream.
-
 # Setup
 
 Just download this repository and place it in your site's `themes/water` directory. Then, in your config.toml:
@@ -13,48 +10,25 @@ Just download this repository and place it in your site's `themes/water` directo
 theme = "water"
 ```
 
-Please don't modify templates directly in the theme folder, as this would cause problems during updates. Instead, refer to the [Configuration](#configuration) and [Customization](#customization) sections.
-
-**WARNING**: ([PR](https://github.com/getzola/zola/pull/997)) On vanilla zola, you also need to copy the translation strings to your config.toml :
+If you would like to receive updates directly via git, you can clone the repository like this:
 
 ```
-[translations.fr]
-source = "Source de cette page"
-readmore = "Lire la suite"
-previousPage = "Page précédente"
-nextPage = "Page suivante"
-dateFormat = "%d/%m/%Y"
-[translations.en]
-source = "Source for this page"
-readmore = "Read more"
-previousPage = "Previous page"
-nextPage = "Next page"
-dateFormat = "%m/%d/%Y"
-```
-
-## Updates
-
-This theme is a work-in-progress so there's plenty of updates all the time. As it is considered alpha stage, breaking changes are not listed and may occur at any time, though never without good reason.
-
-If you want to get updates semi-automatically, fetch the theme using git:
-
-```
-$ mkdir themes
+$ cd path/to/site/
+$ mkdir themes # If it doesn't exist yet
 $ git clone https://tildegit.org/southerntofu/zola-water themes/water
 ```
 
-Then, to fetch updates:
+Then you can fetch updates, from the `zola-water` repository, with the `git pull` command. Please don't modify templates directly in the theme folder, as this would cause problems during updates. Instead, refer to the [Configuration](#configuration) and [Customization](#customization) sections.
 
-```
-$ cd themes/water
-$ git pull
-```
+## Updates
+
+**This theme is a work-in-progress**. It's good enough for me and some other folks to use and cutomize for our needs, however some things will evolve over time to improve the overall experience. **Breaking changes** will be introduced, though never without reason.
+
+The overall design of this theme takes careful evaluation, to avoid having to revert changes in the future.
 
 # Configuration
 
-If you want to simply configure the theme to match your needs, there's a few options at your disposal. If you want to replace parts of the templates, please head over to the [Customization](#customization) section of this README.
-
-**WARNING**: ([PR](https://github.com/getzola/zola/pull/997)) Vanilla zola does not support overriding a simple key from config.extra subsection, such as config.extra.styles. For the moment, we only use 1-level keys (home.title -> home_title) for this reason, but this will change in the future!
+If you want to simply configure the theme to match your needs, there's a few options at your disposal. If you want to replace parts of the templates, please head over to the [Customization](#customization) section of this page.
 
 ## Base template
 
@@ -65,7 +39,11 @@ There's a few options to configure the source for different parts of the base te
 
 Each of these settings can be either the path to a page from the content folder, or "disabled". Setting a page requires a full path, including the `.md` extension, because Zola loads pages from either `page.md` or `page/index.md`. Disabling these parts with the "disabled" keyword.
 
+**Note**: Pages defined in the config, like `header = _common/header.md` will be resolved according to the current language, so the french version of the site will call `_common/header.fr.md` automatically. This will provoke a crash when such a page is not translated in not all defined languages. (**TODO**: open a ticket on zola for support of `required` param in `get_page` function).
+
 If you need more flexible customization of the templates, please refer to the [Customization](#customization) section on how to extend the theme's template from your site's templates folder.
+
+**TODO**: In the future, every macro will have a corresponding shortcode, so that basic configuration of the layout can be achieved exclusively via Markdown files.
 
 ## Styles
 
@@ -95,7 +73,7 @@ This setting can be "main" (default) or "body". To have the authentic water.css 
 
 ## Homepage
 
-By default, the homepage (content/_index.md) is built as a landing page, taking the file's Markdown content into the main area of the website. However, the homepage can also be used to display a section's latest articles with the `home_section` setting. Here's an overview of the settings specific to the homepage.
+By default, the homepage (`content/_index.md`) is built as a landing page, taking the file's Markdown content into the main area of the website. However, the homepage can also be used to display a section's latest articles with the `home_section` setting. Here's an overview of the settings specific to the homepage.
 
 ### home_title
 
@@ -180,13 +158,11 @@ The variables you can use in those templates are described on [zola docs](https:
 
 # Translations for multilingual sites (i18n)
 
-In order to support translations, you need to enable languages in your site config. Then, you can translate markdown files by simply adding ".LANG" before the ".md" extension, where LANG is the language you want to translate it into. For example, `content/about.md` becomes `content/about.fr.md` in french.
-
-This is explained [in the multilingual docs](https://www.getzola.org/documentation/content/multilingual/) on Zola's website.
+In order to support translations, you need to enable languages in your site config. Then, you can translate markdown files by simply adding ".LANG" before the ".md" extension, where LANG is the language you want to translate it into. For example, `content/about.md` becomes `content/about.fr.md` in french. This is explained [in the multilingual docs](https://www.getzola.org/documentation/content/multilingual/) on Zola's website.
 
 ### Convenience macros
 
-This theme includes a few macros to help deal with with i18n concerns. They are located in the widgets.html file, which you simply need to import in your template, unless your template extends the theme's index.html which already imports it for you:
+This theme includes a few macros to help deal with with translations. They are located in the `templates/widgets.html` file, which you simply need to import in your template, unless your template extends the theme's index.html (or any page extending it) which already imports it for you:
 
 ```
 {% import "widgets.html" as widgets %}
