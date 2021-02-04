@@ -160,6 +160,10 @@ The variables you can use in those templates are described on [zola docs](https:
 
 In order to support translations, you need to enable languages in your site config. Then, you can translate markdown files by simply adding ".LANG" before the ".md" extension, where LANG is the language you want to translate it into. For example, `content/about.md` becomes `content/about.fr.md` in french. This is explained [in the multilingual docs](https://www.getzola.org/documentation/content/multilingual/) on Zola's website.
 
+Simple translation strings to reuse across the templates are stored in the site's configuration file, as well as in the theme's `theme.toml`. They are described in a `extra.translations` section, which contains a subsection for each language, each containing a mapping of a key to a translated string. When a string is defined in both files, the one defined in the site config will be used.
+
+**Note**: The strings are stored in the extra section, not in the `translations` field of the config, because these are not merged properly with the config translations, and the zola project has plans to deprecate these translation strings entirely in favor of [Fluent](https://projectfluent.org).
+
 ### Convenience macros
 
 This theme includes a few macros to help deal with with translations. They are located in the `templates/widgets.html` file, which you simply need to import in your template, unless your template extends the theme's index.html (or any page extending it) which already imports it for you:
@@ -168,29 +172,39 @@ This theme includes a few macros to help deal with with translations. They are l
 {% import "widgets.html" as widgets %}
 ```
 
-#### i18n_path
+#### t
 
-Takes a `path` parameter to a content page/section, and a `lang` parameter. Returns the path to the page in the requested language.
+Takes a `key` parameter. Returns the corresponding translation key, in the current language.
 
 Example:
 
 ```
-<p>The current language's menu is in file {{ widgets::i18n_path(path="menu.md", lang=lang) }}</p>
+{{ widgets:t(key="readmore") }}
+```
+
+#### i18n_path
+
+Takes a `path` parameter to a content page/section. Returns the path to the page in the current language.
+
+Example:
+
+```
+<p>The current language's menu is in file {{ widgets::i18n_path(path="menu.md") }}</p>
 ```
 
 #### i18n_content
 
-Takes a `path` parameter to a content page (not section), and a `lang` parameter. Retuns the page's content in the requested language.
+Takes a `path` parameter to a content page (not section). Return the page's content in the current language.
 
 Example:
 
 ```
-<nav>{{ widgets::i18n_content(path="menu.md", lang=lang) }}</nav>
+<nav>{{ widgets::i18n_content(path="menu.md") }}</nav>
 ```
 
 #### i18n_url
 
-Takes a `path` parameter which is a URL relative to your site, and a `lang` parameter. Returns the requested URL, with the language inserted between the base_url and the path (eg. "rss.xml" => "BASEURL/fr/rss.xml").
+Takes a `path` parameter which is a URL relative to your site. Returns the requested URL, with the current language inserted between the base_url and the path (eg. "rss.xml" => "BASEURL/fr/rss.xml").
 
 Example:
 
@@ -198,11 +212,11 @@ Example:
 <link rel="alternate" type="application/rss+xml" href="{{ widgets::i18n_url(path="rss.xml") }}">
 ```
 
-**Note**: this macro does not lookup translations, but naively constructs the URL. Only use it for content you know share the same slug across languages.
+**Note**: this macro does not lookup translations, because these are not supported on all content (only pages and sections), but naively constructs the URL. Only use it for content you know share the same slug across languages. The base URL is also assumed to be the same across languages, because localized base URLs is not yet supported by zola.
 
-### i18n taxonomies
+### Translating taxonomies
 
-In order to support local names for taxonomies, you simply need to define those with an additional `lang` key in config.taxonomies:
+In order to support translating names for taxonomies, you simply need to define those with an additional `lang` key in config.taxonomies:
 
 ```
 taxonomies = [
@@ -221,6 +235,10 @@ tags = [ "ssg", "tutoriel" ]
 auteurices = [ "foobar" ]
 ```
 
+**Note**: I'm not sure if that's a feature or an anti-feature, for reasons explained here : https://zola.discourse.group/t/rfc-internationalization-system-rework/546/20 .
+
+**TODO**: Implement/Document translations for display name and description of taxonomies.
+
 # Template widgets
 
 The theme features some nice, user-friendly content-organizing patterns such as described in [this article](https://staticadventures.netlib.re/blog/multi-column-layout/).
@@ -231,7 +249,7 @@ For the moment, only a menu widget is provided, but more are coming!
 
 This widget comes in handy when you need to build a list of link, that you can further style with CSS. It takes a `content` argument and divides it according to the thematic breaks, furthermore stripping paragraph tags added during Markdown processing.
 
-**Note**: this macro relies on ugly HTML hacks that do not work with every content, i hope in the future zola allows us to access the raw markdown content and process it as we need.
+**Note**: this macro relies on ugly HTML hacks that do not work with every content, i hope in the future zola allows us to access the raw markdown content and maybe even exposes a filter to split a page by thematic breaks.
 
 Example:
 
@@ -265,8 +283,19 @@ This theme is already quite cool, but there's a few limitations i would like to 
 - if you configure a header/menu = "foo.md", it needs to be translated in every language otherwise the site will crash; if you have ideas how to fix this without a [has_page](https://zola.discourse.group/t/rfc-i18n/13/28) template function, let me know!
 - if you configure a header/menu, it cannot be the index page because of some weird reason i have no idea about
 - pagination cannot work on the index page, because index.html doesn't know about the home section's paginator (only the home's paginator) ; maybe we could count the home section's children and auto append a link to SECTION/page/2 when it's more than X?
+- we need more template blocks, for more customizability, so you don't have to edit huge chunks of templates just to modify a single value
 
 ## Future plans
 
+- ensure really good accessibility
+- test right-to-left languages
 - provide some interesting shortcodes
 - support other plug-and-play CSS stylesheets than water.css
+- support using only relative URLs so the same site output can be used across different baseURLs
+- add some cool, useful templates:
+  - FAQ
+  - "about me"
+  - a contributing guide page produced by the theme
+  - alternative names page to discover how to access the same page over different browsers/protocols
+  - test results page, to integrate with a CI
+  - build log page, to integrate with a CD
