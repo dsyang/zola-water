@@ -89,6 +89,10 @@ Example: use `home_section = "blog"` to feature the blog/ section on the homepag
 
 `home_fullarticles = false` decides whether to show article contents on the homepage. When disabled, articles will have their summary displayed, or simply their title/date when they don't have a summary. This option only applies to sites using a `home_section`.
 
+### section_fullarticles
+
+`section_fullarticles = false` decides whether to show articles contents in a section. When disabled, articles will have their summary displayed, or simply their title/date when they don't have a summary. This setting can be overriden for each section with the `extra.fullarticles` field.
+
 # Customization
 
 ## Extending templates
@@ -150,11 +154,44 @@ Then, you need to create templates for the taxonomies in your site's templates f
 
 The variables you can use in those templates are described on [zola docs](https://www.getzola.org/documentation/templates/taxonomies/). Please be aware that taxonomy templates have no title/content or related section/page variables.
 
-**Note**: If your taxonomy template extends the theme's index.html, your site will crash if the template does not override the main block, as the one provided in index.html is intended for the homepage. This could be improved in the future, and patches are welcome!
-
-**WARNING**: Taxonomies templates don't have a lang in Zola <= 10.1. If you are running Zola 10.1, please be sure to override the header block in your taxonomies templates or you will have a friendly error message displayed on your site (no crash).
+**Note**: If your taxonomy template extends the theme's index.html, your site will crash if the template does not override the main block, as the one provided in index.html is intended for the homepage. This could be improved in the future, and patches are welcome! **TODO**: check if that is still true with newer zola
 
 **Note**: If you replace the theme's index.html entirely, please remember to include fallbacks for missing variables in taxonomies. These workarounds are marked "TAXONOMY" in the index.html so you can find them easily.
+
+### List of terms
+
+To list the terms in a taxonomy, you may use a template like this:
+
+```
+{% extends "index.html" %}
+
+{% block title %}{{ taxonomy.name }} | {{ config.extra.title }}{% endblock %}
+
+{% block main %}
+{% if terms %}
+<h1>Kinds of {{ taxonomy.name }}:</h1>
+<ul>{% for term in terms %}
+    <li><a href="{{ term.permalink }}">{{ term.name }}</a></li>{% endfor %}
+</ul>
+{% else %}No terms yet in taxonomy {{ taxonomy.name }}
+{% endif %}
+{% endblock main %}
+```
+
+### List of entries for a term
+
+To list the entries marked for a term, you may use a template like this:
+
+```
+{% extends 'index.html' %}
+
+{% block title %}{{ term.name }} | {{ config.extra.title }}{% endblock %}
+
+{% block main %}
+{# HACK: cur_paginator doesn't exist on taxonomy terms without enough items #}
+<h1>List of articles in {{ taxonomy.name }} {{ term.name }}:</h1>
+{{ widgets::section(cur_paginator=paginator|default(value=false), cur_pages=term.pages, full_articles=false) }}
+```
 
 # Translations for multilingual sites (i18n)
 

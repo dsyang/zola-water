@@ -4,5 +4,5 @@
 
 {% block main %}
 {# HACK: paginator is not set on transparent sections (i.e. blog/2020/_index.md) #}
-{{ widgets::section(cur_section=section, cur_paginator=paginator|default(value=false)) }}
+{{ widgets::section(cur_section=section, cur_paginator=paginator|default(value=false), cur_pages=section.pages, full_articles=section.extra.fullarticles|default(value=config.section_fullarticles|default(value=false))) }}
 {% endblock main %}
