@@ -93,6 +93,15 @@ Example: use `home_section = "blog"` to feature the blog/ section on the homepag
 
 `section_fullarticles = false` decides whether to show articles contents in a section. When disabled, articles will have their summary displayed, or simply their title/date when they don't have a summary. This setting can be overriden for each section with the `extra.fullarticles` field.
 
+## Page sources
+
+If your website sources are published somewhere, you can display a URL (currently only in the footer) to each page's source, by configuring a `[extra.forge]` block in the config file. This block should contain a single `browse` field containing the baseURL to which the page/section path will be added to form the entire link to the source. As trailing slashes are trimmed in the template itself, the URL may end with a `/`. For example:
+
+```
+[forge]
+browse = "https://lab.example/foo/bar/src/branch/main"
+```
+
 # Customization
 
 ## Extending templates
